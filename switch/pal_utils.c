@@ -22,14 +22,58 @@
 
 #include "main.h"
 
-static void init_filter()
-{
-	//SDL_N3DSKeyBind(KEY_A, SDLK_RETURN);
-	//SDL_N3DSKeyBind(KEY_B, SDLK_ESCAPE);
-	//SDL_N3DSKeyBind(KEY_CPAD_UP, SDLK_UP);
-	//SDL_N3DSKeyBind(KEY_CPAD_DOWN, SDLK_DOWN);
-	//SDL_N3DSKeyBind(KEY_CPAD_LEFT, SDLK_LEFT);
-	//SDL_N3DSKeyBind(KEY_CPAD_RIGHT, SDLK_RIGHT);
+static void input_event_flter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *state) {
+  int button, which;
+  switch (lpEven->type)
+  {
+    case SDL_JOYBUTTONDOWN:
+      button = lpEvent->jbutton.button;
+      which = lpEvent->jbutton.which;
+      switch (button)
+      {
+        case 0: //A
+          state->dwKeyPress = kKeyMenu;
+
+        //case 1: //B
+
+        case 2: //X
+          state->dwKeyPress = kKeyMenu;
+
+        //case 3: //Y
+
+        //case 4: //LSTICK
+
+        //case 5: //RSTICK
+
+        case 6: //L
+        case 8: //ZL
+          state->dwKeyPress = kKeyPgUp;
+
+        case 7: //R
+        case 9: //ZR
+          state->dwKeyPress = kKeyPgDown;
+
+        //case 10: //PLUS
+
+        //case 11: //MINUS
+
+        case 12: //DLEFT
+        case 16: //LSTICKLEFT
+          state->dwKeyPress = kKeyLeft;
+
+        case 13: //DUP
+        case 17: //LSTICKUP
+          state->dwKeyPress = kKeyUp;
+
+        case 14: //DRIGHT
+        case 18: //LSTICKRIGHT
+          state->dwKeyPress = kKeyRight;
+
+        case 15: //DDOWN
+        case 19: //LSTICK DOWN
+          state->dwKeyPress = kKeyDown;
+      }
+  }
 }
 
 BOOL
@@ -55,7 +99,7 @@ UTIL_Platform_Init(
 	char* argv[]
 )
 {
-	PAL_RegisterInputFilter(init_filter, NULL, NULL);
+	PAL_RegisterInputFilter(NULL, input_event_flter, NULL);
 	gConfig.fLaunchSetting = FALSE;
 	return 0;
 }
