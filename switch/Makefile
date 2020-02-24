@@ -113,7 +113,9 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 			$(foreach dir,$(LIBDIRS),-I$(dir)/include/SDL2) \
 			-I$(CURDIR)/$(BUILD) \
-			-I$(DEVKITPRO)/libnx/include
+			-I$(DEVKITPRO)/libnx/include \
+			-I$(DEVKITPRO)/portlibs/switch/include/opus \
+			-I$(DEVKITPRO)/portlibs/switch/include/vorbis
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 

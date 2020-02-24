@@ -21,10 +21,11 @@
 //
 
 #include "main.h"
+#include "SDL.h"
 
-static void input_event_flter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *state) {
+static int input_event_filter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *state) {
   int button, which;
-  switch (lpEven->type)
+  switch (lpEvent->type)
   {
     case SDL_JOYBUTTONDOWN:
       button = lpEvent->jbutton.button;
@@ -32,12 +33,14 @@ static void input_event_flter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *
       switch (button)
       {
         case 0: //A
-          state->dwKeyPress = kKeyMenu;
+          state->dwKeyPress |= kKeySearch;
+          return 1;
 
         //case 1: //B
 
         case 2: //X
-          state->dwKeyPress = kKeyMenu;
+          state->dwKeyPress |= kKeyMenu;
+          return 1;
 
         //case 3: //Y
 
@@ -47,11 +50,12 @@ static void input_event_flter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *
 
         case 6: //L
         case 8: //ZL
-          state->dwKeyPress = kKeyPgUp;
+          state->dwKeyPress |= kKeyPgUp;
+          return 1;
 
         case 7: //R
         case 9: //ZR
-          state->dwKeyPress = kKeyPgDown;
+          state->dwKeyPress |= kKeyPgDn;
 
         //case 10: //PLUS
 
@@ -59,19 +63,31 @@ static void input_event_flter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *
 
         case 12: //DLEFT
         case 16: //LSTICKLEFT
-          state->dwKeyPress = kKeyLeft;
+          state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
+          state->dir = kDirWest;
+          state->dwKeyPress |= kKeyLeft;
+          return 1;
 
         case 13: //DUP
         case 17: //LSTICKUP
-          state->dwKeyPress = kKeyUp;
+          state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
+          state->dir = kDirNorth;
+          state->dwKeyPress |= kKeyUp;
+          return 1;
 
         case 14: //DRIGHT
         case 18: //LSTICKRIGHT
-          state->dwKeyPress = kKeyRight;
+          state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
+          state->dir = kDirEast;
+          state->dwKeyPress |= kKeyRight;
+          return 1;
 
         case 15: //DDOWN
         case 19: //LSTICK DOWN
-          state->dwKeyPress = kKeyDown;
+          state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
+          state->dir = kDirSouth;
+          state->dwKeyPress |= kKeyDown;
+          return 1;
       }
   }
 }
@@ -82,7 +98,7 @@ UTIL_GetScreenSize(
 	DWORD *pdwScreenHeight
 )
 {
-	return FALSE;
+	return (pdwScreenWidth && pdwScreenHeight && *pdwScreenWidth && *pdwScreenH    eight);
 }
 
 BOOL
@@ -99,7 +115,7 @@ UTIL_Platform_Init(
 	char* argv[]
 )
 {
-	PAL_RegisterInputFilter(NULL, input_event_flter, NULL);
+	PAL_RegisterInputFilter(NULL, input_event_filter, NULL);
 	gConfig.fLaunchSetting = FALSE;
 	return 0;
 }
