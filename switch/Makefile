@@ -52,7 +52,7 @@ CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 
 
 
-CFLAGS	+=	$(INCLUDE) -DARM11 -DSWITCH -D__SWITCH__ -DPAL_HAS_PLATFORM_SPECIFIC_UTILS -I.. -I../..
+CFLAGS	+=	$(INCLUDE) -DARM11 -DSWITCH -D__SWITCH__ -I.. -I../..
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -std=gnu++14
 #CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++14

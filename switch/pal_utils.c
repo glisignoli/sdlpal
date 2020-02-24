@@ -36,7 +36,7 @@ static int input_event_filter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *
           state->dwKeyPress |= kKeySearch;
           return 1;
 
-        //case 1: //B
+          //case 1: //B
 
         case 2: //X
           state->dwKeyPress |= kKeyMenu;
@@ -66,30 +66,31 @@ static int input_event_filter(const SDL_Event *lpEvent, volatile PALINPUTSTATE *
           state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
           state->dir = kDirWest;
           state->dwKeyPress |= kKeyLeft;
-          return 1;
+          break;
 
         case 13: //DUP
         case 17: //LSTICKUP
           state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
           state->dir = kDirNorth;
           state->dwKeyPress |= kKeyUp;
-          return 1;
+          break;
 
         case 14: //DRIGHT
         case 18: //LSTICKRIGHT
           state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
           state->dir = kDirEast;
           state->dwKeyPress |= kKeyRight;
-          return 1;
+          break;
 
         case 15: //DDOWN
         case 19: //LSTICK DOWN
           state->prevdir = (gpGlobals->fInBattle ? kDirUnknown : state->dir);
           state->dir = kDirSouth;
           state->dwKeyPress |= kKeyDown;
-          return 1;
+          break;
       }
   }
+  return 0;
 }
 
 BOOL
@@ -98,7 +99,7 @@ UTIL_GetScreenSize(
 	DWORD *pdwScreenHeight
 )
 {
-	return (pdwScreenWidth && pdwScreenHeight && *pdwScreenWidth && *pdwScreenH    eight);
+	return (pdwScreenWidth && pdwScreenHeight && *pdwScreenWidth && *pdwScreenHeight);
 }
 
 BOOL
